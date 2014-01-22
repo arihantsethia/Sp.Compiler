@@ -33,6 +33,9 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="code_gen.cpp" />
+		<Unit filename="code_gen.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="lex.cpp" />
 		<Unit filename="lex.h" />
 		<Unit filename="main.cpp" />
