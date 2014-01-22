@@ -19,8 +19,8 @@ char  *newname()
 void freename(char    *s)
 {
     if( Namep > Names )
-    *--Namep = s;
+        *--Namep = s;
     else
-    fprintf(stderr, "%d: (Internal error) Name stack underflow\n",
-                                yylineno );
+        fprintf(stderr, "%d: (Internal error) Name stack underflow\n",
+                yylineno );
 }

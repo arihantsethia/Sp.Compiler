@@ -27,3 +27,4 @@ extern int yylineno;
 
 int match(int);
 void advance(void);
+bool is_number(char * s , int len);
