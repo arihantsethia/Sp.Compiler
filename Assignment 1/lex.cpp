@@ -63,7 +63,7 @@ int lex(void){
                while(isalnum(*current))
                   ++current;
                yyleng = current - yytext;
-               return NUM_OR_ID;
+               return NUM;
             }
             break;
          }
