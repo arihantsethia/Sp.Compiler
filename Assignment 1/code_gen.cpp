@@ -67,7 +67,7 @@ char    *factor()
 {
     char *tempvar;
 
-    if( match(NUM_OR_ID) )
+    if( match(NUM) )
     {
 	/* Print the assignment instruction. The %0.*s conversion is a form of
 	 * %X.Ys, where X is the field width and Y is the maximum number of
