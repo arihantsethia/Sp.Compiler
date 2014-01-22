@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1390400898 source:/home/arihant/Github/Compilers/Assignment 1/lexical_analyzer.cpp
+	"lexical_analyzer.h"
+	"var.h"
+	<vector>
+	<string>
+	<cstring>
+	<cmath>
+	<cstdio>
+	<cstdlib>
+
+1390400766 /home/arihant/Github/Compilers/Assignment 1/lexical_analyzer.h
+	<string>
+
+1390400819 /home/arihant/Github/Compilers/Assignment 1/var.h
+
+1390398914 source:/home/arihant/Github/Compilers/Assignment 1/main.cpp
+	"lexical_analyzer.h"
+	"var.h"
+	<iostream>
+
+1390409154 source:/home/arihant/Github/Compilers/Assignment 1/basic_parser.c
+	<stdio.h>
+	"lex.h"
+
+1390409177 /home/arihant/Github/Compilers/Assignment 1/lex.h
+
+1390409167 source:/home/arihant/Github/Compilers/Assignment 1/code_gen.c
+	<stdio.h>
+	"lex.h"
+
