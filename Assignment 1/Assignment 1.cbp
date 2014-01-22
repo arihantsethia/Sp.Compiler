@@ -32,14 +32,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="lexical_analyzer.cpp" />
-		<Unit filename="lexical_analyzer.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="code_gen.cpp" />
+		<Unit filename="lex.cpp" />
+		<Unit filename="lex.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="var.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="name.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
