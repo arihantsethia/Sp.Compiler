@@ -10,14 +10,44 @@ void statements()
 
     while( !match(EOI) )
     {
-        tempvar = expression();
-
-        if( match( SEMI ) )
+        if(match( ID )){
             advance();
+            if(match( EQUALS )){
+                advance();
+                tempvar = expression();
+            } else {
+                fprintf( stderr, "%d:  Expression Expected\n", yylineno );
+            }
+        }
+        else if( match( IF )){
+            advance();
+            tempvar = expression_prime();
+            if(match (THEN) ){
+                advance();
+            } else{
+                fprintf( stderr, "%d: then Expected\n", yylineno );
+            }
+        }
+        else if( match( WHILE )){
+            advance();
+            tempvar = expression_prime();
+            if(match (DO) ){
+                advance();
+            } else{
+                fprintf( stderr, "%d: do Expected\n", yylineno );
+            }
+        }
+        else if( match( BEGIN )){
+            advance();
+            tempvar = opt_statements();
+            if(match( END )){
+                advance();
+            }else{
+                fprintf( stderr, "%d: end Expected\n", yylineno );
+            }
+        }
         else
-            fprintf( stderr, "%d: Inserting missing semicolon\n", yylineno );
-
-        freename( tempvar );
+            fprintf( stderr, "%d: Error \n", yylineno );
     }
 }
 
@@ -63,14 +93,14 @@ char    *factor()
 
     if( match(NUM) )
     {
-	/* Print the assignment instruction. The %0.*s conversion is a form of
-	 * %X.Ys, where X is the field width and Y is the maximum number of
-	 * characters that will be printed (even if the string is longer). I'm
-	 * using the %0.*s to print the string because it's not \0 terminated.
-	 * The field has a default width of 0, but it will grow the size needed
-	 * to print the string. The ".*" tells printf() to take the maximum-
-	 * number-of-characters count from the next argument (yyleng).
-	 */
+        /* Print the assignment instruction. The %0.*s conversion is a form of
+         * %X.Ys, where X is the field width and Y is the maximum number of
+         * characters that will be printed (even if the string is longer). I'm
+         * using the %0.*s to print the string because it's not \0 terminated.
+         * The field has a default width of 0, but it will grow the size needed
+         * to print the string. The ".*" tells printf() to take the maximum-
+         * number-of-characters count from the next argument (yyleng).
+         */
 
         printf("    %s = %0.*s\n", tempvar = newname(), yyleng, yytext );
         advance();
@@ -85,7 +115,15 @@ char    *factor()
             fprintf(stderr, "%d: Mismatched parenthesis\n", yylineno );
     }
     else
-	fprintf( stderr, "%d: Number or identifier expected\n", yylineno );
+        fprintf( stderr, "%d: Number or identifier expected\n", yylineno );
 
     return tempvar;
+}
+
+char    *expression_prime ( void ){
+
+}
+
+char    *opt_statements ( void ){
+
 }
