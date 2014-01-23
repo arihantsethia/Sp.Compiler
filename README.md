@@ -19,7 +19,7 @@ Grammer
 
 **stmt → ` id := expr | if expr_prime then stmt | while expr_prime do stmt | begin opt_stmts end `**
 
-** opt_stmts  → ` stmt_list |є`**
+**opt_stmts  → ` stmt_list |є`**
 
 **stmt_list  → `stmt_list ; stmt | stmt `**
 
