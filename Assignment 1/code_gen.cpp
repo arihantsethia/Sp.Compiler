@@ -17,7 +17,8 @@ void statement()
             advance();
             tempvar = expression();
         } else {
-            fprintf( stderr, "%d: := Expected\n", yylineno );
+            fprintf( stderr, "%sLine %d %s\':=\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+            exit(1);
         }
     }
     else if( match( IF )){
@@ -27,7 +28,8 @@ void statement()
             advance();
             statement();
         }else{
-            fprintf( stderr, "%d: then Expected\n", yylineno );
+            fprintf( stderr, "%sLine %d %s\'then\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+            exit(1);
         }
     }
     else if( match( WHILE )){
@@ -37,7 +39,8 @@ void statement()
             advance();
             statement();
         } else{
-            fprintf( stderr, "%d: do Expected\n", yylineno );
+            fprintf( stderr, "%sLine %d %s\'do\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+            exit(1);
         }
     }
     else if( match( BEGIN )){
@@ -45,14 +48,12 @@ void statement()
         opt_statements();
         if(match( END )){
             advance();
-           // statement();
         }else{
-            fprintf( stderr, "%d: end Expected\n", yylineno );
+            fprintf( stderr, "%sLine %d %s\'end\'%s expected\n",KBLU,yylineno,KRED,KNRM);
             exit(1);
         }
     }
-    else
-        return;
+    return;
 }
 
 char    *expression()
@@ -137,11 +138,15 @@ char    *factor()
         tempvar = expression();
         if( match(RP) )
             advance();
-        else
-            fprintf(stderr, "%d: Mismatched parenthesis\n", yylineno );
+        else{
+            fprintf( stderr, "%sLine %d %s\'\)\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+            exit(1);
+        }
     }
-    else
-        fprintf( stderr, "%d: Number or identifier expected\n", yylineno );
+    else{
+            fprintf( stderr, "%sLine %d %s\'number or identifier\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+            exit(1);
+        }
 
     return tempvar;
 }
@@ -169,6 +174,9 @@ char    *expression_prime ( void ){
         advance();
         tempvar = expression();
         printf("    %s <= %s\n", tempvar1, tempvar );
+    }else{
+       fprintf( stderr, "%sLine %d %s\'Relational Operator\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+       exit(1);
     }
 }
 
@@ -184,7 +192,7 @@ void opt_statements ( void ){
                 advance();
             }
             if(match(END)){
-                fprintf(stderr, "Error : \n");
+                fprintf( stderr, "%sLine %d %s\'statement\'%s expected\n",KBLU,yylineno,KRED,KNRM);
                 exit(1);
             }
         }
