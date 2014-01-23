@@ -63,6 +63,29 @@ int lex(void)
             case '\t':
             case ' ' :
                 break;
+            case ':':
+                current++;
+                if(*current == '='){
+                    yyleng=2;
+                    return EQUALS;
+                }
+                fprintf(stderr, "Agvonse la8emevn eisagwgn <%c>\n", *current);
+            case '=':
+                    return REQUALS;
+            case '>':
+                    current++;
+                    if(*current == '='){
+                        yyleng=2;
+                        return GTOET;
+                    }
+                    return GREATER;
+            case '<':
+                    current++;
+                    if(*current == '='){
+                        yyleng=2;
+                        return LTOET;
+                    }
+                    return LESS;
             default:
                 if(!isalnum(*current))
                     fprintf(stderr, "Agvonse la8emevn eisagwgn <%c>\n", *current);

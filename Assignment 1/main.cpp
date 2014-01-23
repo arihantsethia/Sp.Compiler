@@ -2,6 +2,6 @@
 
 int main ()
 {
-    statements ();
+    statement ();
     return 0;
 }
