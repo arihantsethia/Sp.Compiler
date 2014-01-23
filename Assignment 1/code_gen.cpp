@@ -1,54 +1,56 @@
-#include <stdio.h>
+#include <cstdio>
+#include <iostream>
 #include "lex.h"
 #include "code_gen.h"
 
-void statements()
+using namespace std;
+
+void statement()
 {
     /*  statements -> expression SEMI  |  expression SEMI statements  */
 
     char *tempvar;
-
-    while( !match(EOI) )
-    {
-        if(match( ID )){
+    if(match( ID )){
+        advance();
+        if(match( EQUALS )){
             advance();
-            if(match( EQUALS )){
-                advance();
-                tempvar = expression();
-            } else {
-                fprintf( stderr, "%d:  Expression Expected\n", yylineno );
-            }
+            tempvar = expression();
+        } else {
+            fprintf( stderr, "%d: := Expected\n", yylineno );
         }
-        else if( match( IF )){
-            advance();
-            tempvar = expression_prime();
-            if(match (THEN) ){
-                advance();
-            } else{
-                fprintf( stderr, "%d: then Expected\n", yylineno );
-            }
-        }
-        else if( match( WHILE )){
-            advance();
-            tempvar = expression_prime();
-            if(match (DO) ){
-                advance();
-            } else{
-                fprintf( stderr, "%d: do Expected\n", yylineno );
-            }
-        }
-        else if( match( BEGIN )){
-            advance();
-            tempvar = opt_statements();
-            if(match( END )){
-                advance();
-            }else{
-                fprintf( stderr, "%d: end Expected\n", yylineno );
-            }
-        }
-        else
-            fprintf( stderr, "%d: Error \n", yylineno );
     }
+    else if( match( IF )){
+        advance();
+        tempvar = expression_prime();
+        if(match (THEN) ){
+            advance();
+            statement();
+        }else{
+            fprintf( stderr, "%d: then Expected\n", yylineno );
+        }
+    }
+    else if( match( WHILE )){
+        advance();
+        tempvar = expression_prime();
+        if(match (DO) ){
+            advance();
+            statement();
+        } else{
+            fprintf( stderr, "%d: do Expected\n", yylineno );
+        }
+    }
+    else if( match( BEGIN )){
+        advance();
+        opt_statements();
+        if(match( END )){
+            advance();
+            statement();
+        }else{
+            fprintf( stderr, "%d: end Expected\n", yylineno );
+        }
+    }
+    else
+        return;
 }
 
 char    *expression()
@@ -121,9 +123,32 @@ char    *factor()
 }
 
 char    *expression_prime ( void ){
-
+    char *tempvar = expression();
+    if(match(GREATER)){
+        advance();
+        tempvar = expression();
+    }else if(match(LESS)){
+        advance();
+        tempvar = expression();
+    }else if(match(REQUALS)){
+        advance();
+        tempvar = expression();
+    }else if(match(GTOET)){
+        advance();
+        tempvar = expression();
+    }else if(match(LTOET)){
+        advance();
+        tempvar = expression();
+    }
 }
 
-char    *opt_statements ( void ){
-
+void opt_statements ( void ){
+    while(!match(END)){
+        statement();
+        if(match(SEMI)){
+            advance();
+        }else{
+            break;
+        }
+    }
 }
