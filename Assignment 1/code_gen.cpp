@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include "lex.h"
 #include "code_gen.h"
@@ -47,6 +48,7 @@ void statement()
            // statement();
         }else{
             fprintf( stderr, "%d: end Expected\n", yylineno );
+            exit(1);
         }
     }
     else
@@ -62,30 +64,47 @@ char    *expression()
     char  *tempvar, *tempvar2;
 
     tempvar = term();
-    while( match( PLUS ) )
+    while( match( PLUS ) || match(MINUS) )
     {
-        advance();
-        tempvar2 = term();
-        printf("    %s += %s\n", tempvar, tempvar2 );
+		if(match(PLUS))
+		{
+			advance();
+			tempvar2 = term();
+			printf("    %s += %s\n", tempvar, tempvar2 );
+
+		}
+		else
+		{
+			advance();
+			tempvar2 = term();
+			printf("    %s -= %s\n", tempvar, tempvar2 );
+		}
         freename( tempvar2 );
     }
-
     return tempvar;
 }
 
 char    *term()
 {
-    char  *tempvar, *tempvar2 ;
+    char  *tempvar, *tempvar2;
 
     tempvar = factor();
-    while( match( TIMES ) )
+    while( match(TIMES) || match(DIV) )
     {
-        advance();
-        tempvar2 = factor();
-        printf("    %s *= %s\n", tempvar, tempvar2 );
+		if(match(TIMES))
+		{
+			advance();
+			tempvar2 = factor();
+			printf("    %s *= %s\n", tempvar, tempvar2 );
+		}
+		else
+		{
+			advance();
+			tempvar2 = factor();
+			printf("    %s /= %s\n", tempvar, tempvar2 );
+		}
         freename( tempvar2 );
     }
-
     return tempvar;
 }
 
@@ -106,6 +125,11 @@ char    *factor()
 
         printf("    %s = %0.*s\n", tempvar = newname(), yyleng, yytext );
         advance();
+
+    }else if(match(ID))
+    {
+        printf("    %s = %0.*s\n", tempvar = newname(), yyleng, yytext );
+        advance();
     }
     else if( match(LP) )
     {
@@ -123,32 +147,46 @@ char    *factor()
 }
 
 char    *expression_prime ( void ){
-    char *tempvar = expression();
+    char *tempvar1 = expression();
+    char *tempvar;
     if(match(GREATER)){
         advance();
         tempvar = expression();
+        printf("    %s > %s\n", tempvar1, tempvar );
     }else if(match(LESS)){
         advance();
         tempvar = expression();
+        printf("    %s < %s\n", tempvar1, tempvar );
     }else if(match(REQUALS)){
         advance();
         tempvar = expression();
+        printf("    %s = %s\n", tempvar1, tempvar );
     }else if(match(GTOET)){
         advance();
         tempvar = expression();
+        printf("    %s >= %s\n", tempvar1, tempvar );
     }else if(match(LTOET)){
         advance();
         tempvar = expression();
+        printf("    %s <= %s\n", tempvar1, tempvar );
     }
 }
 
 void opt_statements ( void ){
-    while(!match(END)){
-        statement();
-        if(match(SEMI)){
-            advance();
-        }else{
-            break;
+
+    if(!match(END)){
+        while(1){
+            statement();
+            if(!match(SEMI)){
+                break;
+            }
+            else{
+                advance();
+            }
+            if(match(END)){
+                fprintf(stderr, "Error : \n");
+                exit(1);
+            }
         }
     }
 }
