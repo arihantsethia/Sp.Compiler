@@ -65,22 +65,22 @@ char    *expression() {
     while( match( PLUS ) || match(MINUS) ) {
         if(match(PLUS)) {
             advance();
-            printf("push %s\n",tempvar);
+            fprintf(fp,"push %s\n",tempvar);
             freename(tempvar);
             tempvar2 = term();
-            printf("pop %s\n",tempvar=newname());
-            printf("add %s,%s\n",tempvar,tempvar2);
-            //printf("push %s\n",tempvar);
-            //printf("    %s += %s\n", tempvar, tempvar2 );
+            fprintf(fp,"pop %s\n",tempvar=newname());
+            fprintf(fp,"add %s,%s\n",tempvar,tempvar2);
+            //fprintf(fp,"push %s\n",tempvar);
+            //fprintf(fp,"    %s += %s\n", tempvar, tempvar2 );
 
         } else {
             advance();
-            printf("push %s\n",tempvar);
+            fprintf(fp,"push %s\n",tempvar);
             freename(tempvar);
             tempvar2 = term();
-            printf("pop %s\n",tempvar=newname());
-            printf("sub %s,%s\n",tempvar,tempvar2);
-            //printf("    %s -= %s\n", tempvar, tempvar2 );
+            fprintf(fp,"pop %s\n",tempvar=newname());
+            fprintf(fp,"sub %s,%s\n",tempvar,tempvar2);
+            //fprintf(fp,"    %s -= %s\n", tempvar, tempvar2 );
         }
         freename(tempvar2);
     }
@@ -94,20 +94,20 @@ char    *term() {
     while( match(TIMES) || match(DIV) ) {
         if(match(TIMES)) {
             advance();
-            printf("push %s\n",tempvar);
+            fprintf(fp,"push %s\n",tempvar);
             freename(tempvar);
             tempvar2 = factor();
-            printf("pop %s\n",tempvar=newname());
-            printf("imul %s,%s\n",tempvar,tempvar2);
-           // printf("    %s *= %s\n", tempvar, tempvar2 );
+            fprintf(fp,"pop %s\n",tempvar=newname());
+            fprintf(fp,"imul %s,%s\n",tempvar,tempvar2);
+            // fprintf(fp,"    %s *= %s\n", tempvar, tempvar2 );
         } else {
             advance();
             tempvar2 = factor();
-            printf("push %s\n",tempvar);
+            fprintf(fp,"push %s\n",tempvar);
             freename(tempvar);
-            printf("idiv %s,%s\n",tempvar,tempvar2);
+            fprintf(fp,"idiv %s,%s\n",tempvar,tempvar2);
 
-            //printf("    %s /= %s\n", tempvar, tempvar2 );
+            //fprintf(fp,"    %s /= %s\n", tempvar, tempvar2 );
         }
         freename( tempvar2 );
     }
@@ -127,11 +127,11 @@ char    *factor() {
          * number-of-characters count from the next argument (yyleng).
          */
 
-        printf("mov %s,%0.*s\n", tempvar = newname(), yyleng, yytext );
+        fprintf(fp,"mov %s,%0.*s\n", tempvar = newname(), yyleng, yytext );
         advance();
 
     } else if(match(ID)) {
-        printf("mov %s,%0.*s\n", tempvar = newname(), yyleng, yytext );
+        fprintf(fp,"mov %s,%0.*s\n", tempvar = newname(), yyleng, yytext );
         advance();
     } else if( match(LP) ) {
         advance();
@@ -156,23 +156,23 @@ void expression_prime ( void ) {
     if(match(GREATER)) {
         advance();
         tempvar = expression();
-        printf("    %s > %s\n", tempvar1, tempvar );
+        fprintf(fp,"    %s > %s\n", tempvar1, tempvar );
     } else if(match(LESS)) {
         advance();
         tempvar = expression();
-        printf("    %s < %s\n", tempvar1, tempvar );
+        fprintf(fp,"    %s < %s\n", tempvar1, tempvar );
     } else if(match(REQUALS)) {
         advance();
         tempvar = expression();
-        printf("    %s = %s\n", tempvar1, tempvar );
+        fprintf(fp,"    %s = %s\n", tempvar1, tempvar );
     } else if(match(GTOET)) {
         advance();
         tempvar = expression();
-        printf("    %s >= %s\n", tempvar1, tempvar );
+        fprintf(fp,"    %s >= %s\n", tempvar1, tempvar );
     } else if(match(LTOET)) {
         advance();
         tempvar = expression();
-        printf("    %s <= %s\n", tempvar1, tempvar );
+        fprintf(fp,"    %s <= %s\n", tempvar1, tempvar );
     } else {
         fprintf( stderr, "%sLine %d %s\'Relational Operator\'%s expected\n",KBLU,yylineno,KRED,KNRM);
         exit(1);
