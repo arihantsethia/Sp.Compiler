@@ -1,3 +1,13 @@
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
+#include <cstring>
+#include <iostream>
+#include <vector>
+#include <map>
+
+using namespace std;
+
 #define EOI		    0	/* End of input			*/
 #define SEMI		1	/* ; 				*/
 #define PLUS 		2	/* + 				*/
