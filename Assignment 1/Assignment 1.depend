@@ -46,3 +46,29 @@
 
 1390468426 /home/arihant/Github/Compilers/Assignment 1/code_gen.h
 
+1390482386 source:/home/bhati/Project/Compilers/Assignment 1/code_gen.cpp
+	<cstdio>
+	<iostream>
+	"lex.h"
+	"code_gen.h"
+
+1390480767 /home/bhati/Project/Compilers/Assignment 1/lex.h
+
+1390480767 /home/bhati/Project/Compilers/Assignment 1/code_gen.h
+
+1390481438 source:/home/bhati/Project/Compilers/Assignment 1/lex.cpp
+	"lex.h"
+	<cstdio>
+	<cctype>
+	<cstring>
+
+1390482086 source:/home/bhati/Project/Compilers/Assignment 1/main.cpp
+	"code_gen.h"
+	"lex.h"
+	<iostream>
+
+1390480767 source:/home/bhati/Project/Compilers/Assignment 1/name.cpp
+	<cstdio>
+	<cstdlib>
+	"lex.h"
+
