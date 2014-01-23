@@ -44,7 +44,7 @@ void statement()
         opt_statements();
         if(match( END )){
             advance();
-            statement();
+           // statement();
         }else{
             fprintf( stderr, "%d: end Expected\n", yylineno );
         }

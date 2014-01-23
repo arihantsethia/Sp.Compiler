@@ -64,8 +64,7 @@ int lex(void)
             case ' ' :
                 break;
             case ':':
-                current++;
-                if(*current == '='){
+                if(*(current+1) == '='){
                     yyleng=2;
                     return EQUALS;
                 }
@@ -73,15 +72,13 @@ int lex(void)
             case '=':
                     return REQUALS;
             case '>':
-                    current++;
-                    if(*current == '='){
+                    if(*(current+1) == '='){
                         yyleng=2;
                         return GTOET;
                     }
                     return GREATER;
             case '<':
-                    current++;
-                    if(*current == '='){
+                    if(*(current+1) == '='){
                         yyleng=2;
                         return LTOET;
                     }
