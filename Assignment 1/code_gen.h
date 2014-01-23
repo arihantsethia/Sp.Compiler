@@ -11,7 +11,7 @@ void opt_statements ( void );
 
 extern char *newname( void       );
 extern void freename( char *name );
-
+extern FILE *fp;
 //static vector< vector<Identifier> > ids;
 //static int scope = 0;
 
