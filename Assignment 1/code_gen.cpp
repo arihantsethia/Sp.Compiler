@@ -5,15 +5,18 @@ using namespace std;
 
 void statement() {
     /*  statements -> expression SEMI  |  expression SEMI statements  */
-
+    int i;
     char *tempvar;
+    string tempname;
     if(match( ID )) {
-        //char *id = yytext;
-        //int val;
+        tempname.assign(yytext, yytext + yyleng);
+        ids[scope][tempname] = stackpos++;
         advance();
         if(match( EQUALS )) {
             advance();
             tempvar = expression();
+            fprintf(fp,"mov [rbp+%d],%s\n",ids[scope][tempname], tempvar);
+            freename(tempvar);
         } else {
             fprintf( stderr, "%sLine %d %s\':=\'%s expected\n",KBLU,yylineno,KRED,KNRM);
             exit(1);
@@ -39,12 +42,12 @@ void statement() {
             exit(1);
         }
     } else if( match( BEGIN )) {
-        //scope++;
+        scope++;
         advance();
         opt_statements();
         if(match( END )) {
-            //ids[scope].clear();
-            //scope--;
+            ids[scope].clear();
+            scope--;
             advance();
         } else {
             fprintf( stderr, "%sLine %d %s\'end\'%s expected\n",KBLU,yylineno,KRED,KNRM);
@@ -67,7 +70,9 @@ char    *expression() {
             advance();
             fprintf(fp,"push %s\n",tempvar);
             freename(tempvar);
+            stackpos++;
             tempvar2 = term();
+            stackpos--;
             fprintf(fp,"pop %s\n",tempvar=newname());
             fprintf(fp,"add %s,%s\n",tempvar,tempvar2);
             //fprintf(fp,"push %s\n",tempvar);
@@ -77,7 +82,9 @@ char    *expression() {
             advance();
             fprintf(fp,"push %s\n",tempvar);
             freename(tempvar);
+            stackpos++;
             tempvar2 = term();
+            stackpos--;
             fprintf(fp,"pop %s\n",tempvar=newname());
             fprintf(fp,"sub %s,%s\n",tempvar,tempvar2);
             //fprintf(fp,"    %s -= %s\n", tempvar, tempvar2 );
@@ -96,15 +103,19 @@ char    *term() {
             advance();
             fprintf(fp,"push %s\n",tempvar);
             freename(tempvar);
+            stackpos++;
             tempvar2 = factor();
+            stackpos--;
             fprintf(fp,"pop %s\n",tempvar=newname());
             fprintf(fp,"imul %s,%s\n",tempvar,tempvar2);
             // fprintf(fp,"    %s *= %s\n", tempvar, tempvar2 );
         } else {
             advance();
-            tempvar2 = factor();
             fprintf(fp,"push %s\n",tempvar);
             freename(tempvar);
+            stackpos++;
+            tempvar2 = factor();
+            stackpos--;
             fprintf(fp,"idiv %s,%s\n",tempvar,tempvar2);
 
             //fprintf(fp,"    %s /= %s\n", tempvar, tempvar2 );
@@ -131,7 +142,18 @@ char    *factor() {
         advance();
 
     } else if(match(ID)) {
-        fprintf(fp,"mov %s,%0.*s\n", tempvar = newname(), yyleng, yytext );
+        int i,f=0;
+        string tempname;
+        tempname.assign(yytext, yytext + yyleng);
+        for(i=scope;i>=0;i--){
+            if(ids[i].find(tempname)!=ids[i].end()){
+                fprintf(fp,"mov %s,[rbp + %d]\n", tempvar = newname(),ids[i][tempname] );
+                f = 1;
+                break;
+            }
+        }
+        if(!f)
+            fprintf( stderr, "%sLine %d %s\'%s'%s not defined\n",KBLU,yylineno,KRED,tempname.c_str(),KNRM);
         advance();
     } else if( match(LP) ) {
         advance();

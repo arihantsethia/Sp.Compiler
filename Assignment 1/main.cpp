@@ -11,7 +11,7 @@ int main (int argc, char *argv) {
         fprintf( stderr, "%sLine %d %s\'EOI\'%s expected\n",KBLU,yylineno,KRED,KNRM);
         exit(1);
     }
-    fprintf(fp," mov rax,60\nmov rdi,0\nsyscall\n");
+    fprintf(fp,"mov rax,60\nmov rdi,0\nsyscall\n");
     fclose(fp);
     system("nasm -f elf64 -o a.o a.asm");
     system("ld -o a.out a.o");
