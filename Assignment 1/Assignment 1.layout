@@ -2,19 +2,19 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="code_gen.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="2719" topLine="103" />
+		<Cursor position="707" topLine="31" />
 	</File>
 	<File name="code_gen.h" open="1" top="0" tabpos="6">
 		<Cursor position="236" topLine="0" />
 	</File>
 	<File name="lex.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="577" topLine="99" />
+		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="lex.h" open="1" top="0" tabpos="1">
-		<Cursor position="787" topLine="6" />
+		<Cursor position="157" topLine="0" />
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="22" topLine="0" />
+		<Cursor position="184" topLine="0" />
 	</File>
 	<File name="name.cpp" open="1" top="0" tabpos="5">
 		<Cursor position="55" topLine="0" />
