@@ -14,37 +14,40 @@
 
 1390400819 /home/arihant/Github/Compilers/Assignment 1/var.h
 
-1390468444 source:/home/arihant/Github/Compilers/Assignment 1/main.cpp
+1390511664 source:/home/arihant/Github/Compilers/Assignment 1/main.cpp
+	"lex.h"
 	"code_gen.h"
 
 1390409154 source:/home/arihant/Github/Compilers/Assignment 1/basic_parser.c
 	<stdio.h>
 	"lex.h"
 
-1390415674 /home/arihant/Github/Compilers/Assignment 1/lex.h
+1390497428 /home/arihant/Github/Compilers/Assignment 1/lex.h
+	<cstdio>
+	<cstdlib>
+	<cctype>
+	<cstring>
+	<iostream>
+	<vector>
+	<map>
 
 1390412332 source:/home/arihant/Github/Compilers/Assignment 1/code_gen.c
 	<stdio.h>
 	"lex.h"
 
-1390468587 source:/home/arihant/Github/Compilers/Assignment 1/code_gen.cpp
-	<cstdio>
-	<iostream>
+1390511443 source:/home/arihant/Github/Compilers/Assignment 1/code_gen.cpp
 	"lex.h"
 	"code_gen.h"
 
-1390466898 source:/home/arihant/Github/Compilers/Assignment 1/lex.cpp
+1390505497 source:/home/arihant/Github/Compilers/Assignment 1/lex.cpp
 	"lex.h"
-	<cstdio>
-	<cctype>
-	<cstring>
 
-1390415685 source:/home/arihant/Github/Compilers/Assignment 1/name.cpp
+1390506374 source:/home/arihant/Github/Compilers/Assignment 1/name.cpp
 	<cstdio>
 	<cstdlib>
 	"lex.h"
 
-1390468426 /home/arihant/Github/Compilers/Assignment 1/code_gen.h
+1390511553 /home/arihant/Github/Compilers/Assignment 1/code_gen.h
 
 1390485811 source:/home/bhati/Project/Compilers/Assignment 1/code_gen.cpp
 	<cstdio>
@@ -73,4 +76,14 @@
 	<cstdio>
 	<cstdlib>
 	"lex.h"
+
+1390497384 source:/home/arihant/Github/Compilers/Assignment 1/Identifer.cpp
+	"Identifer.h"
+
+1390497244 /home/arihant/Github/Compilers/Assignment 1/Identifer.h
+
+1390497836 /home/arihant/Github/Compilers/Assignment 1/Identifier.h
+
+1390497840 source:/home/arihant/Github/Compilers/Assignment 1/Identifier.cpp
+	"Identifier.h"
 
