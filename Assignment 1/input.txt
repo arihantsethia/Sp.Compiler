@@ -1,4 +1,7 @@
 begin
 ab := 5;
-c := 5 + ab
+c := ab;
+begin
+d:=6+ab
+end
 end
