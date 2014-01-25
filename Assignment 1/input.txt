@@ -1,9 +1,8 @@
 begin
 ab := 5;
-if ab < 6 then
-	ab:=6 ;
-c := ab;
+while ab >= 0 do
 begin
+	ab := ab-1
+end;
 d:=6+ab
-end
 end
