@@ -189,7 +189,7 @@ char    *term()
                 fprintf(fp,"popq\t%s\n",tempvar=newname());
                 stackpos-=8;
 			}
-			fprintf(fp,"imul\t%s,%s\n",tempvar2,tempvar);
+			fprintf(fp,"imulq\t%s,%s\n",tempvar2,tempvar);
 			// fprintf(fp,"    %s *= %s\n", tempvar, tempvar2 );
 		}
 		else
@@ -207,17 +207,21 @@ char    *term()
                 stackpos-=8;
 			}
 			stringstream fout;
-			if(registers["%rax"] == true){
+			if(registers["%rax"] == true && !strcmp("%rax",tempvar) ){
                 fprintf(fp,"pushq\t%rax\n");
                 fout<<"popq\t%rax\n";
 			}
-            if(registers["%rdx"] == true){
+            if(registers["%rdx"] == true && !strcmp("%rdx",tempvar2)){
                 fprintf(fp,"pushq\t%rdx\n");
                 fout<<"popq\t%rdx\n";
             }
-            fprintf(fp,"movq\t%s, %rax\n",tempvar);
-			fprintf(fp,"idiv\t%s\n",tempvar2);
-			fprintf(fp,"movq\t%rax, %s \n",tempvar);
+            if(strcmp("%rax",tempvar))
+                fprintf(fp,"movq\t%s, %rax\n",tempvar);
+            fprintf(fp,"movq\t%rax, %rdx\n");
+            fprintf(fp,"sarq\t$63, %rdx\n");
+			fprintf(fp,"idivq\t%s\n",tempvar2);
+			if(!strcmp("%rax",tempvar))
+                fprintf(fp,"movq\t%rax, %s \n",tempvar);
 			fprintf(fp,"%s",fout.str().c_str());
 		}
 		freename( tempvar2 );
