@@ -10,13 +10,20 @@ movq	%rsp, %rbp
 movq	$5,%rax
 pushq	%rax
 movq	-8(%rbp), %rax
-pushq	%rax
-movq	$6,%rax
-movq	-8(%rbp), %rbx
-addq	%rbx,%rax
-pushq	%rax
-popq	%rax
-popq	%rax
-popq	%rax
+movq	$6,%rbx
+cmp	%rbx, %rax
+jge .L0
+movq	$6,%rcx
+movq	%rcx,-8(%rbp)
+.L0:
+movq	-8(%rbp), %rcx
+pushq	%rcx
+movq	$6,%rcx
+movq	-8(%rbp), %rdx
+addq	%rdx,%rcx
+pushq	%rcx
+popq	%rcx
+popq	%rcx
+popq	%rcx
 leave
 ret

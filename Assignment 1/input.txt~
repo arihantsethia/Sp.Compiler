@@ -1,7 +1,5 @@
 begin
 ab := 5;
-if ab < 6 then
-	ab:=6 ;
 c := ab;
 begin
 d:=6+ab

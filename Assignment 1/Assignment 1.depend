@@ -49,30 +49,29 @@
 
 1390670290 /home/arihant/Github/Compilers/Assignment 1/code_gen.h
 
-1390485811 source:/home/bhati/Project/Compilers/Assignment 1/code_gen.cpp
+1390678503 source:/home/bhati/Project/Compilers/Assignment 1/code_gen.cpp
+	"lex.h"
+	"code_gen.h"
+
+1390673932 /home/bhati/Project/Compilers/Assignment 1/lex.h
 	<cstdio>
 	<cstdlib>
-	<iostream>
-	"lex.h"
-	"code_gen.h"
-
-1390480767 /home/bhati/Project/Compilers/Assignment 1/lex.h
-
-1390480767 /home/bhati/Project/Compilers/Assignment 1/code_gen.h
-
-1390481438 source:/home/bhati/Project/Compilers/Assignment 1/lex.cpp
-	"lex.h"
-	<cstdio>
 	<cctype>
 	<cstring>
-
-1390482558 source:/home/bhati/Project/Compilers/Assignment 1/main.cpp
-	"code_gen.h"
-	"lex.h"
 	<iostream>
-	<cstdio>
+	<vector>
+	<map>
 
-1390480767 source:/home/bhati/Project/Compilers/Assignment 1/name.cpp
+1390678461 /home/bhati/Project/Compilers/Assignment 1/code_gen.h
+
+1390673909 source:/home/bhati/Project/Compilers/Assignment 1/lex.cpp
+	"lex.h"
+
+1390673932 source:/home/bhati/Project/Compilers/Assignment 1/main.cpp
+	"lex.h"
+	"code_gen.h"
+
+1390673932 source:/home/bhati/Project/Compilers/Assignment 1/name.cpp
 	<cstdio>
 	<cstdlib>
 	"lex.h"
