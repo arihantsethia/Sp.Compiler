@@ -32,8 +32,9 @@ void statement()
 			tempvar = expression();
 			if(!f)
                 fprintf(fp,"pushq\t%s\n", tempvar);
-            else
-                fprintf(fp,"movq\t%s,-%d(%rbp)\n", tempvar,ids[scope][tempname]);
+            else{
+                fprintf(fp,"movq\t%s,-%d(%rbp)\n", tempvar,ids[i][tempname]);
+            }
 			freename(tempvar);
 		}
 		else
@@ -75,6 +76,7 @@ void statement()
 		{
 			advance();
 			statement();
+			fprintf(fp,"jmp\t.L%d\n",_d);
             fprintf(fp,".L%d:\n",d);
 
 		}
