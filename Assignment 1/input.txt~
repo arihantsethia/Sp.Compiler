@@ -1,7 +1,0 @@
-begin
-ab := 5;
-c := ab;
-begin
-d:=6+ab
-end
-end
