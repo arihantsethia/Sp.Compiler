@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="code_gen.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="4770" topLine="137" />
+	<File name="code_gen.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="5192" topLine="185" />
 	</File>
-	<File name="code_gen.h" open="1" top="0" tabpos="4">
-		<Cursor position="365" topLine="0" />
+	<File name="code_gen.h" open="0" top="0" tabpos="4">
+		<Cursor position="433" topLine="1" />
 	</File>
-	<File name="lex.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="3766" topLine="82" />
+	<File name="lex.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="3777" topLine="97" />
 	</File>
-	<File name="lex.h" open="1" top="0" tabpos="1">
+	<File name="lex.h" open="0" top="0" tabpos="1">
 		<Cursor position="864" topLine="24" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="377" topLine="2" />
+	<File name="main.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="557" topLine="5" />
 	</File>
-	<File name="name.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="97" topLine="0" />
+	<File name="name.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="101" topLine="7" />
 	</File>
 </CodeBlocks_layout_file>
