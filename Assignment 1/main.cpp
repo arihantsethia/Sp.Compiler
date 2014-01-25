@@ -1,3 +1,4 @@
+#include "header.h"
 #include "lex.h"
 #include "code_gen.h"
 
