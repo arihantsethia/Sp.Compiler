@@ -1,8 +1,4 @@
 begin
 ab := 5;
-while ab >= 0 do
-begin
-	ab := ab-1
-end;
-d:=6+ab
+d:=6/ab*9
 end
