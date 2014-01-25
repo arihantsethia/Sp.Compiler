@@ -1,13 +1,3 @@
-#include <cstdio>
-#include <cstdlib>
-#include <cctype>
-#include <cstring>
-#include <iostream>
-#include <vector>
-#include <map>
-
-using namespace std;
-
 #define EOI		    0	/* End of input			*/
 #define SEMI		1	/* ; 				*/
 #define PLUS 		2	/* + 				*/
@@ -31,7 +21,7 @@ using namespace std;
 #define LTOET       20
 #define REQUALS     21
 
-extern char *yytext;		/* in lex.c			*/
+extern char *yytext;
 extern int yyleng;
 extern int yylineno;
 
@@ -39,14 +29,3 @@ int match(int);
 void advance(void);
 bool is_number(char * s , int len);
 
-
-static int registerCount = 0;
-
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[1;31m"
-#define KGRN  "\x1B[1;32m"
-#define KYEL  "\x1B[1;33m"
-#define KBLU  "\x1B[1;34m"
-#define KMAG  "\x1B[1;35m"
-#define KCYN  "\x1B[1;36m"
-#define KWHT  "\x1B[1;37m"

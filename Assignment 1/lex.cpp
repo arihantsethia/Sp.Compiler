@@ -1,3 +1,4 @@
+#include "header.h"
 #include "lex.h"
 
 char* yytext = ""; /* Lexeme (not '\0'

@@ -49,31 +49,26 @@
 
 1390670290 /home/arihant/Github/Compilers/Assignment 1/code_gen.h
 
-1390679145 source:/home/bhati/Project/Compilers/Assignment 1/code_gen.cpp
+1390681949 source:/home/bhati/Project/Compilers/Assignment 1/code_gen.cpp
+	"header.h"
 	"lex.h"
 	"code_gen.h"
 
-1390673932 /home/bhati/Project/Compilers/Assignment 1/lex.h
-	<cstdio>
-	<cstdlib>
-	<cctype>
-	<cstring>
-	<iostream>
-	<vector>
-	<map>
+1390682357 /home/bhati/Project/Compilers/Assignment 1/lex.h
 
-1390678461 /home/bhati/Project/Compilers/Assignment 1/code_gen.h
+1390682336 /home/bhati/Project/Compilers/Assignment 1/code_gen.h
 
-1390673909 source:/home/bhati/Project/Compilers/Assignment 1/lex.cpp
+1390682267 source:/home/bhati/Project/Compilers/Assignment 1/lex.cpp
+	"header.h"
 	"lex.h"
 
-1390673932 source:/home/bhati/Project/Compilers/Assignment 1/main.cpp
+1390681974 source:/home/bhati/Project/Compilers/Assignment 1/main.cpp
+	"header.h"
 	"lex.h"
 	"code_gen.h"
 
-1390673932 source:/home/bhati/Project/Compilers/Assignment 1/name.cpp
-	<cstdio>
-	<cstdlib>
+1390682383 source:/home/bhati/Project/Compilers/Assignment 1/name.cpp
+	"header.h"
 	"lex.h"
 
 1390497384 source:/home/arihant/Github/Compilers/Assignment 1/Identifer.cpp
@@ -86,4 +81,14 @@
 1390596274 source:/home/arihant/Github/Compilers/Assignment 1/Identifier.cpp
 	"Identifier.h"
 	<iostream>
+
+1390682295 /home/bhati/Project/Compilers/Assignment 1/header.h
+	<cstdio>
+	<cstdlib>
+	<cctype>
+	<cstring>
+	<iostream>
+	<vector>
+	<sstream>
+	<map>
 

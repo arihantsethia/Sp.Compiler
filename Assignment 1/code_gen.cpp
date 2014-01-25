@@ -1,3 +1,4 @@
+#include "header.h"
 #include "lex.h"
 #include "code_gen.h"
 
@@ -128,7 +129,7 @@ char    *expression()
 		if(match(PLUS))
 		{
 			advance();
-			if(registerCount == 4 ){
+			if(registerCount == RCOUNT ){
                 fprintf(fp,"pushq\t%s\n",tempvar);
                 flag = true;
                 freename(tempvar);
@@ -147,7 +148,7 @@ char    *expression()
 		else
 		{
 			advance();
-			if(registerCount == 4 ){
+			if(registerCount == RCOUNT ){
                 fprintf(fp,"pushq\t%s\n",tempvar);
                 flag = true;
                 freename(tempvar);
@@ -177,7 +178,7 @@ char    *term()
 		if(match(TIMES))
 		{
 			advance();
-			if(registerCount == 4 ){
+			if(registerCount == RCOUNT ){
                 fprintf(fp,"pushq\t%s\n",tempvar);
                 flag = true;
                 freename(tempvar);
@@ -194,7 +195,7 @@ char    *term()
 		else
 		{
 			advance();
-			if(registerCount == 4 ){
+			if(registerCount == RCOUNT ){
                 fprintf(fp,"pushq\t%s\n",tempvar);
                 flag = true;
                 freename(tempvar);
@@ -205,7 +206,19 @@ char    *term()
                 fprintf(fp,"popq\t%s\n",tempvar=newname());
                 stackpos-=8;
 			}
-			fprintf(fp,"idiv\t%s,%s\n",tempvar2,tempvar);
+			stringstream fout;
+			if(registers["%rax"] == true){
+                fprintf(fp,"pushq\t%rax\n");
+                fout<<"popq\t%rax\n";
+			}
+            if(registers["%rdx"] == true){
+                fprintf(fp,"pushq\t%rdx\n");
+                fout<<"popq\t%rdx\n";
+            }
+            fprintf(fp,"movq\t%s, %rax\n",tempvar);
+			fprintf(fp,"idiv\t%s\n",tempvar2);
+			fprintf(fp,"movq\t%rax, %s \n",tempvar);
+			fprintf(fp,"%s",fout.str().c_str());
 		}
 		freename( tempvar2 );
 	}
