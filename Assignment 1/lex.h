@@ -40,6 +40,8 @@ void advance(void);
 bool is_number(char * s , int len);
 
 
+static int registerCount = 0;
+
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[1;31m"
 #define KGRN  "\x1B[1;32m"

@@ -8,14 +8,14 @@ int main (int argc, char *argv)
 	fp = fopen ("a.s", "w+");
 	fprintf(fp,".LC0: \n\t.string	\"%%d\" \n\t.text \n\t.globl	main\n\t.type	main, @function \n");
 	fprintf(fp,"main: \n.LFB0: \n");
-	fprintf(fp,"\tpushq	%rbp\n\tmovq	%rsp, %rbp\n\tsubq	$16, %rsp\n");
+	fprintf(fp,"pushq\t%rbp\nmovq\t%rsp, %rbp\n");
 	statement ();
 	if(!match(EOI))
 	{
-		fprintf( stderr, "%sLine %d %s\'EOI\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+		fprintf( stderr, "%sError : Line %d %s\'EOI\'%s expected\n",KBLU,yylineno,KRED,KNRM);
 		exit(1);
 	}
-	fprintf(fp,"\tleave\n\tret\n");
+	fprintf(fp,"leave\nret\n");
 	fclose(fp);
 	system("gcc a.s");
 	return 0;

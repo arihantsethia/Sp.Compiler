@@ -23,19 +23,22 @@ void statement()
 		if(!f)
 		{
 			ids[scope][tempname] = stackpos;
-			stackpos +=4;
+			stackpos +=8;
 		}
 		advance();
 		if(match( EQUALS ))
 		{
 			advance();
 			tempvar = expression();
-			fprintf(fp,"movq %s,-%d(%rbp)\n", tempvar,ids[scope][tempname]);
+			if(!f)
+                fprintf(fp,"pushq\t%s\n", tempvar);
+            else
+                fprintf(fp,"movq\t%s,-%d(%rbp)\n", tempvar,ids[scope][tempname]);
 			freename(tempvar);
 		}
 		else
 		{
-			fprintf( stderr, "%sLine %d %s\':=\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+			fprintf( stderr, "%sError : Line %d %s\':=\'%s expected\n",KBLU,yylineno,KRED,KNRM);
 			exit(1);
 		}
 	}
@@ -50,7 +53,7 @@ void statement()
 		}
 		else
 		{
-			fprintf( stderr, "%sLine %d %s\'then\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+			fprintf( stderr, "%sError : Line %d %s\'then\'%s expected\n",KBLU,yylineno,KRED,KNRM);
 			exit(1);
 		}
 	}
@@ -65,25 +68,31 @@ void statement()
 		}
 		else
 		{
-			fprintf( stderr, "%sLine %d %s\'do\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+			fprintf( stderr, "%sError : Line %d %s\'do\'%s expected\n",KBLU,yylineno,KRED,KNRM);
 			exit(1);
 		}
 	}
 	else if( match( BEGIN ))
 	{
-
 		scope++;
+		scopep[scope] = stackpos;
 		advance();
 		opt_statements();
 		if(match( END ))
 		{
+		    tempvar=newname();
+		    while(scopep[scope]<stackpos){
+                stackpos-=8;
+                fprintf(fp,"popq\t%s\n", tempvar );
+		    }
+		    freename(tempvar);
 			ids[scope].clear();
 			scope--;
 			advance();
 		}
 		else
 		{
-			fprintf( stderr, "%sLine %d %s\'end\'%s expected\n",KBLU,yylineno,KRED,KNRM);
+			fprintf( stderr, "%sError : Line %d %s\'end\'%s expected\n",KBLU,yylineno,KRED,KNRM);
 			exit(1);
 		}
 	}
@@ -101,16 +110,22 @@ char    *expression()
 	tempvar = term();
 	while( match( PLUS ) || match(MINUS) )
 	{
+	    bool flag= false;
 		if(match(PLUS))
 		{
 			advance();
-			fprintf(fp,"pushq %s\n",tempvar);
-			freename(tempvar);
-			stackpos+=4;
+			if(registerCount == 4 ){
+                fprintf(fp,"pushq\t%s\n",tempvar);
+                flag = true;
+                freename(tempvar);
+                stackpos+=8;
+			}
 			tempvar2 = term();
-			stackpos-=4;
-			fprintf(fp,"popq %s\n",tempvar=newname());
-			fprintf(fp,"add %s,%s\n",tempvar,tempvar2);
+			if(flag){
+                fprintf(fp,"popq\t%s\n",tempvar=newname());
+                stackpos-=8;
+			}
+			fprintf(fp,"addq\t%s,%s\n",tempvar2,tempvar);
 			//fprintf(fp,"push %s\n",tempvar);
 			//fprintf(fp,"    %s += %s\n", tempvar, tempvar2 );
 
@@ -118,13 +133,18 @@ char    *expression()
 		else
 		{
 			advance();
-			fprintf(fp,"pushq %s\n",tempvar);
-			freename(tempvar);
-			stackpos+=4;
+			if(registerCount == 4 ){
+                fprintf(fp,"pushq\t%s\n",tempvar);
+                flag = true;
+                freename(tempvar);
+                stackpos+=8;
+			}
 			tempvar2 = term();
-			stackpos-=4;
-			fprintf(fp,"popq %s\n",tempvar=newname());
-			fprintf(fp,"subq %s,%s\n",tempvar,tempvar2);
+			if(flag){
+                fprintf(fp,"popq\t%s\n",tempvar=newname());
+                stackpos-=8;
+			}
+			fprintf(fp,"subq\t%s,%s\n",tempvar2,tempvar);
 			//fprintf(fp,"    %s -= %s\n", tempvar, tempvar2 );
 		}
 		freename(tempvar2);
@@ -139,27 +159,39 @@ char    *term()
 	tempvar = factor();
 	while( match(TIMES) || match(DIV) )
 	{
+	    bool flag=false;
 		if(match(TIMES))
 		{
 			advance();
-			fprintf(fp,"pushq %s\n",tempvar);
-			freename(tempvar);
-			stackpos+=4;
+			if(registerCount == 4 ){
+                fprintf(fp,"pushq\t%s\n",tempvar);
+                flag = true;
+                freename(tempvar);
+                stackpos+=8;
+			}
 			tempvar2 = factor();
-			stackpos-=4;
-			fprintf(fp,"popq %s\n",tempvar=newname());
-			fprintf(fp,"imul %s,%s\n",tempvar,tempvar2);
+			if(flag){
+                fprintf(fp,"popq\t%s\n",tempvar=newname());
+                stackpos-=8;
+			}
+			fprintf(fp,"imul\t%s,%s\n",tempvar2,tempvar);
 			// fprintf(fp,"    %s *= %s\n", tempvar, tempvar2 );
 		}
 		else
 		{
 			advance();
-			fprintf(fp,"pushq %s\n",tempvar);
-			freename(tempvar);
-			stackpos+=4;
+			if(registerCount == 4 ){
+                fprintf(fp,"pushq\t%s\n",tempvar);
+                flag = true;
+                freename(tempvar);
+                stackpos+=8;
+			}
 			tempvar2 = factor();
-			stackpos-=4;
-			fprintf(fp,"idiv %s,%s\n",tempvar,tempvar2);
+			if(flag){
+                fprintf(fp,"popq\t%s\n",tempvar=newname());
+                stackpos-=8;
+			}
+			fprintf(fp,"idiv\t%s,%s\n",tempvar2,tempvar);
 		}
 		freename( tempvar2 );
 	}
@@ -181,7 +213,7 @@ char    *factor()
 		 * number-of-characters count from the next argument (yyleng).
 		 */
 
-		fprintf(fp,"movq $%0.*s,%s\n" , yyleng, yytext, tempvar = newname());
+		fprintf(fp,"movq\t$%0.*s,%s\n" , yyleng, yytext, tempvar = newname());
 		advance();
 
 	}
@@ -194,13 +226,15 @@ char    *factor()
 		{
 			if(ids[i].find(tempname)!=ids[i].end())
 			{
-				fprintf(fp,"movq -%d(%rbp), %s\n", ids[i][tempname],tempvar = newname() );
+				fprintf(fp,"movq\t-%d(%rbp), %s\n", ids[i][tempname],tempvar = newname() );
 				f = 1;
 				break;
 			}
 		}
-		if(!f)
-			fprintf( stderr, "%sLine %d %s'%s'%s not defined\n",KBLU,yylineno,KRED,tempname.c_str(),KNRM);
+		if(!f){
+			fprintf( stderr, "%sError : Line %d %s'%s'%s not defined\n",KBLU,yylineno,KRED,tempname.c_str(),KNRM);
+            exit(1);
+		}
 		advance();
 	}
 	else if( match(LP) )
@@ -211,13 +245,13 @@ char    *factor()
 			advance();
 		else
 		{
-			fprintf( stderr, "%sLine %d %s')'%s expected\n",KBLU,yylineno,KRED,KNRM);
+			fprintf( stderr, "%sError : Line %d %s')'%s expected\n",KBLU,yylineno,KRED,KNRM);
 			exit(1);
 		}
 	}
 	else
 	{
-		fprintf( stderr, "%sLine %d %s'number or identifier'%s expected\n",KBLU,yylineno,KRED,KNRM);
+		fprintf( stderr, "%sError : Line %d %s'number or identifier'%s expected\n",KBLU,yylineno,KRED,KNRM);
 		exit(1);
 	}
 
@@ -260,7 +294,7 @@ void expression_prime ( void )
 	}
 	else
 	{
-		fprintf( stderr, "%sLine %d %s'Relational Operator'%s expected\n",KBLU,yylineno,KRED,KNRM);
+		fprintf( stderr, "%sError : Line %d %s'Relational Operator'%s expected\n",KBLU,yylineno,KRED,KNRM);
 		exit(1);
 	}
 }
@@ -283,7 +317,7 @@ void opt_statements ( void )
 			}
 			if(match(END))
 			{
-				fprintf( stderr, "%sLine %d %s'statement'%s expected\n",KBLU,yylineno,KRED,KNRM);
+				fprintf( stderr, "%sError : Line %d %s'statement'%s expected\n",KBLU,yylineno,KRED,KNRM);
 				exit(1);
 			}
 		}
