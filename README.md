@@ -13,7 +13,7 @@ Aim
 
 To write a compiler for a given grammar which parses any program in the specified grammer and converts it to relevent x86 assembly code.
 
-Grammer
+Grammar
 ------------------------
 
 

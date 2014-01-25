@@ -1,6 +1,5 @@
 #ifndef CODE_GEN_H_INCLUDED
 #define CODE_GEN_H_INCLUDED
-//#include "Identifier.h"
 
 void statement();
 char    *factor     ( void );
@@ -12,7 +11,8 @@ void opt_statements ( void );
 extern char *newname( void       );
 extern void freename( char *name );
 extern FILE *fp;
-//static vector< vector<Identifier> > ids;
-//static int scope = 0;
+static vector< map<string, int> > ids(100);
+static int scope = 0;
+static int stackpos = 4;
 
 #endif // CODE_GEN_H_INCLUDED
