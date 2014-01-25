@@ -44,12 +44,16 @@ void statement()
 	}
 	else if( match( IF ))
 	{
+
 		advance();
-		expression_prime();
+        int d = _count++;
+        expression_prime(d);
+
 		if(match (THEN) )
 		{
 			advance();
 			statement();
+			fprintf(fp,".L%d:\n",d);
 		}
 		else
 		{
@@ -60,11 +64,19 @@ void statement()
 	else if( match( WHILE ))
 	{
 		advance();
-		expression_prime();
+		int d , _d ;
+		_d = _count++ ;
+		 d = _count++ ;
+		fprintf(fp,".L%d:\n",_d);
+
+		expression_prime(d);
+
 		if(match (DO) )
 		{
 			advance();
 			statement();
+            fprintf(fp,".L%d:\n",d);
+
 		}
 		else
 		{
@@ -258,7 +270,7 @@ char    *factor()
 	return tempvar;
 }
 
-void expression_prime ( void )
+void expression_prime ( int d )
 {
 	char *tempvar1 = expression();
 	char *tempvar;
@@ -266,31 +278,36 @@ void expression_prime ( void )
 	{
 		advance();
 		tempvar = expression();
-		fprintf(fp,"    %s > %s\n", tempvar1, tempvar );
+        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
+        fprintf(fp,"jle .L%d\n",d);
 	}
 	else if(match(LESS))
 	{
 		advance();
 		tempvar = expression();
-		fprintf(fp,"    %s < %s\n", tempvar1, tempvar );
+        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
+        fprintf(fp,"jge .L%d\n",d);
 	}
 	else if(match(REQUALS))
 	{
 		advance();
 		tempvar = expression();
-		fprintf(fp,"    %s = %s\n", tempvar1, tempvar );
+        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
+        fprintf(fp,"jne .L%d\n",d);
 	}
 	else if(match(GTOET))
 	{
 		advance();
 		tempvar = expression();
-		fprintf(fp,"    %s >= %s\n", tempvar1, tempvar );
+        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
+        fprintf(fp,"jl .L%d\n",d);
 	}
 	else if(match(LTOET))
 	{
 		advance();
 		tempvar = expression();
-		fprintf(fp,"    %s <= %s\n", tempvar1, tempvar );
+        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
+        fprintf(fp,"jg .L%d\n",d);
 	}
 	else
 	{
