@@ -12,7 +12,7 @@
 
 using namespace std;
 
-#define RCOUNT      12
+#define RCOUNT      11
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[1;31m"
 #define KGRN  "\x1B[1;32m"
@@ -21,8 +21,5 @@ using namespace std;
 #define KMAG  "\x1B[1;35m"
 #define KCYN  "\x1B[1;36m"
 #define KWHT  "\x1B[1;37m"
-
-static map<string,int> registers ;
-static int registerCount = 0;
 
 #endif // HEADER_H_INCLUDED

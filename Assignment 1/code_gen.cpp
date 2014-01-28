@@ -1,6 +1,7 @@
 #include "header.h"
 #include "lex.h"
 #include "code_gen.h"
+#include "name.h"
 
 using namespace std;
 
@@ -21,21 +22,19 @@ void statement()
 				break;
 			}
 		}
-		if(!f)
-		{
-			ids[scope][tempname] = stackpos;
-			stackpos +=8;
-		}
 		advance();
 		if(match( EQUALS ))
 		{
 			advance();
 			tempvar = expression();
-			if(!f)
-                fprintf(fp,"pushq\t%s\n", tempvar);
-            else{
-                fprintf(fp,"movq\t%s,-%d(%rbp)\n", tempvar,ids[i][tempname]);
-            }
+			if(!f){
+				ids[scope][tempname] = stackpos;
+				stackpos +=8;
+				fprintf(fp,"pushq\t%s\n", tempvar);
+			}
+			else{
+				fprintf(fp,"movq\t%s,-%d(%rbp)\n", tempvar,ids[i][tempname]);
+			}
 			freename(tempvar);
 		}
 		else
@@ -48,8 +47,8 @@ void statement()
 	{
 
 		advance();
-        int d = _count++;
-        expression_prime(d);
+		int d = _count++;
+		expression_prime(d);
 
 		if(match (THEN) )
 		{
@@ -78,7 +77,7 @@ void statement()
 			advance();
 			statement();
 			fprintf(fp,"jmp\t.L%d\n",_d);
-            fprintf(fp,".L%d:\n",d);
+			fprintf(fp,".L%d:\n",d);
 
 		}
 		else
@@ -95,12 +94,12 @@ void statement()
 		opt_statements();
 		if(match( END ))
 		{
-		    tempvar=newname();
-		    while(scopep[scope]<stackpos){
-                stackpos-=8;
-                fprintf(fp,"popq\t%s\n", tempvar );
-		    }
-		    freename(tempvar);
+			tempvar=newname();
+			while(scopep[scope]<stackpos){
+				stackpos-=8;
+				fprintf(fp,"popq\t%s\n", tempvar );
+			}
+			freename(tempvar);
 			ids[scope].clear();
 			scope--;
 			advance();
@@ -125,20 +124,20 @@ char    *expression()
 	tempvar = term();
 	while( match( PLUS ) || match(MINUS) )
 	{
-	    bool flag= false;
+		bool flag= false;
 		if(match(PLUS))
 		{
 			advance();
 			if(registerCount == RCOUNT ){
-                fprintf(fp,"pushq\t%s\n",tempvar);
-                flag = true;
-                freename(tempvar);
-                stackpos+=8;
+				fprintf(fp,"pushq\t%s\n",tempvar);
+				flag = true;
+				freename(tempvar);
+				stackpos+=8;
 			}
 			tempvar2 = term();
 			if(flag){
-                fprintf(fp,"popq\t%s\n",tempvar=newname());
-                stackpos-=8;
+				fprintf(fp,"popq\t%s\n",tempvar=newname());
+				stackpos-=8;
 			}
 			fprintf(fp,"addq\t%s,%s\n",tempvar2,tempvar);
 			//fprintf(fp,"push %s\n",tempvar);
@@ -149,15 +148,15 @@ char    *expression()
 		{
 			advance();
 			if(registerCount == RCOUNT ){
-                fprintf(fp,"pushq\t%s\n",tempvar);
-                flag = true;
-                freename(tempvar);
-                stackpos+=8;
+				fprintf(fp,"pushq\t%s\n",tempvar);
+				flag = true;
+				freename(tempvar);
+				stackpos+=8;
 			}
 			tempvar2 = term();
 			if(flag){
-                fprintf(fp,"popq\t%s\n",tempvar=newname());
-                stackpos-=8;
+				fprintf(fp,"popq\t%s\n",tempvar=newname());
+				stackpos-=8;
 			}
 			fprintf(fp,"subq\t%s,%s\n",tempvar2,tempvar);
 			//fprintf(fp,"    %s -= %s\n", tempvar, tempvar2 );
@@ -174,20 +173,20 @@ char    *term()
 	tempvar = factor();
 	while( match(TIMES) || match(DIV) )
 	{
-	    bool flag=false;
+		bool flag=false;
 		if(match(TIMES))
 		{
 			advance();
 			if(registerCount == RCOUNT ){
-                fprintf(fp,"pushq\t%s\n",tempvar);
-                flag = true;
-                freename(tempvar);
-                stackpos+=8;
+				fprintf(fp,"pushq\t%s\n",tempvar);
+				flag = true;
+				freename(tempvar);
+				stackpos+=8;
 			}
 			tempvar2 = factor();
 			if(flag){
-                fprintf(fp,"popq\t%s\n",tempvar=newname());
-                stackpos-=8;
+				fprintf(fp,"popq\t%s\n",tempvar=newname());
+				stackpos-=8;
 			}
 			fprintf(fp,"imulq\t%s,%s\n",tempvar2,tempvar);
 			// fprintf(fp,"    %s *= %s\n", tempvar, tempvar2 );
@@ -195,34 +194,62 @@ char    *term()
 		else
 		{
 			advance();
+			if(!strncmp("0",yytext, 1)){
+				fprintf( stderr, "%sError : Line %d %sdivide by '0'%s not allowed\n",KBLU,yylineno,KRED,KNRM);
+				exit(1);
+			}
 			if(registerCount == RCOUNT ){
-                fprintf(fp,"pushq\t%s\n",tempvar);
-                flag = true;
-                freename(tempvar);
-                stackpos+=8;
+				fprintf(fp,"pushq\t%s\n",tempvar);
+				flag = true;
+				freename(tempvar);
+				stackpos+=8;
 			}
 			tempvar2 = factor();
+			string s="";
+
+			if(!strcmp("%rdx",tempvar2)){
+				bool _flag = 0;
+				if(!registers["%rax"]){
+					registers["%rax"] = true;
+					registerCount++;
+					_flag = 1;
+				}
+				if(registerCount==RCOUNT){
+					fprintf(fp,"pushq\t%r15\n");
+					s ="popq\t%r15\n";
+					registers["%r15"] = false;
+					registerCount--;
+				}
+				tempvar2 = newname();
+				fprintf(fp,"movq\t%rdx, %s\n",tempvar2);
+				if(_flag){
+					registers["%rax"] = false;
+					registerCount--;
+				}
+				registers["%rdx"] = false;
+				registerCount--;
+			}
 			if(flag){
-                fprintf(fp,"popq\t%s\n",tempvar=newname());
-                stackpos-=8;
+				fprintf(fp,"popq\t%s\n",tempvar=newname());
+				stackpos-=8;
 			}
-			stringstream fout;
-			if(registers["%rax"] == true && !strcmp("%rax",tempvar) ){
-                fprintf(fp,"pushq\t%rax\n");
-                fout<<"popq\t%rax\n";
+			if(registers["%rax"] == true && strcmp("%rax",tempvar) ){
+				fprintf(fp,"pushq\t%rax\n");
+				s="popq\t%rax\n"+s;
 			}
-            if(registers["%rdx"] == true && !strcmp("%rdx",tempvar2)){
-                fprintf(fp,"pushq\t%rdx\n");
-                fout<<"popq\t%rdx\n";
-            }
-            if(strcmp("%rax",tempvar))
-                fprintf(fp,"movq\t%s, %rax\n",tempvar);
-            fprintf(fp,"movq\t%rax, %rdx\n");
-            fprintf(fp,"sarq\t$63, %rdx\n");
+			if(registers["%rdx"] == true){
+				fprintf(fp,"pushq\t%rdx\n");
+				s = "popq\t%rdx\n"+s;
+			}
+			if(strcmp("%rax",tempvar))
+				fprintf(fp,"movq\t%s, %rax\n",tempvar);
+			fprintf(fp,"movq\t%rax, %rdx\n");
+			fprintf(fp,"sarq\t$63, %rdx\n");
 			fprintf(fp,"idivq\t%s\n",tempvar2);
-			if(!strcmp("%rax",tempvar))
-                fprintf(fp,"movq\t%rax, %s \n",tempvar);
-			fprintf(fp,"%s",fout.str().c_str());
+			if(strcmp("%rax",tempvar)){
+				fprintf(fp,"movq\t%rax, %s \n",tempvar);
+			}
+			fprintf(fp,"%s",s.c_str());
 		}
 		freename( tempvar2 );
 	}
@@ -264,7 +291,7 @@ char    *factor()
 		}
 		if(!f){
 			fprintf( stderr, "%sError : Line %d %s'%s'%s not defined\n",KBLU,yylineno,KRED,tempname.c_str(),KNRM);
-            exit(1);
+			exit(1);
 		}
 		advance();
 	}
@@ -297,36 +324,36 @@ void expression_prime ( int d )
 	{
 		advance();
 		tempvar = expression();
-        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
-        fprintf(fp,"jle .L%d\n",d);
+		fprintf(fp,"cmpq\t%s, %s\n", tempvar, tempvar1 );
+		fprintf(fp,"jle .L%d\n",d);
 	}
 	else if(match(LESS))
 	{
 		advance();
 		tempvar = expression();
-        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
-        fprintf(fp,"jge .L%d\n",d);
+		fprintf(fp,"cmpq\t%s, %s\n", tempvar, tempvar1 );
+		fprintf(fp,"jge .L%d\n",d);
 	}
 	else if(match(REQUALS))
 	{
 		advance();
 		tempvar = expression();
-        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
-        fprintf(fp,"jne .L%d\n",d);
+		fprintf(fp,"cmpq\t%s, %s\n", tempvar, tempvar1 );
+		fprintf(fp,"jne .L%d\n",d);
 	}
 	else if(match(GTOET))
 	{
 		advance();
 		tempvar = expression();
-        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
-        fprintf(fp,"jl .L%d\n",d);
+		fprintf(fp,"cmpq\t%s, %s\n", tempvar, tempvar1 );
+		fprintf(fp,"jl .L%d\n",d);
 	}
 	else if(match(LTOET))
 	{
 		advance();
 		tempvar = expression();
-        fprintf(fp,"cmp\t%s, %s\n", tempvar, tempvar1 );
-        fprintf(fp,"jg .L%d\n",d);
+		fprintf(fp,"cmpq\t%s, %s\n", tempvar, tempvar1 );
+		fprintf(fp,"jg .L%d\n",d);
 	}
 	else
 	{
@@ -353,7 +380,7 @@ void opt_statements ( void )
 			}
 			if(match(END))
 			{
-				fprintf( stderr, "%sError : Line %d %s'statement'%s expected\n",KBLU,yylineno,KRED,KNRM);
+				fprintf( stderr, "%sError : Line %d %s'statement'%s expected before 'end'\n",KBLU,yylineno,KRED,KNRM);
 				exit(1);
 			}
 		}

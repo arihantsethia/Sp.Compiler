@@ -44,6 +44,7 @@
 		<Unit filename="lex.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="name.cpp" />
+		<Unit filename="name.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
