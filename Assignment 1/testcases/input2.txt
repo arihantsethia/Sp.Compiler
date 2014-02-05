@@ -1,0 +1,12 @@
+begin
+	a:= 5*2-3/10+7;
+	b:= a+11*2;
+	while a<=23 do
+		begin
+			b:=b-1;
+			a:=a+1
+		end;
+	d:=0;
+	if a=23 then
+		d:=1
+end

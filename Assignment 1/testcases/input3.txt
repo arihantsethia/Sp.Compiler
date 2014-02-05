@@ -1,0 +1,19 @@
+begin
+	a:= 12/(5+1)*7/8+9*10*20-12+7;
+	b:= a+11*2;
+	d:=0;
+	while a<=b do
+		begin
+			b:=b-1;
+			a:=a+1;
+			if a=b then
+				begin
+				d:=1;
+				while d<10 do
+					d:=d+1
+				end
+		end;
+	a :=d;
+	if a=23 then
+		d:=1
+end
