@@ -1,0 +1,12 @@
+begin
+	temp1 := 0;
+	temp2 := 1;
+	i := 2;
+	while i <= 50 do
+	begin
+		temp := temp2 ;
+		temp2 := temp2 + temp1 ; 
+		temp1 := temp ;
+		i := i + 1
+	end 
+end
