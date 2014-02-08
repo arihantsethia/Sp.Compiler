@@ -21,6 +21,8 @@ IS			(u|U|l|L)*
 ">="					return GTOET ;
 "("						return LP ;
 ")"						return RP ;
+"["						return LS ;
+"]"						return RS ;
 "{"						return LB ;
 "}"						return RB ;
 "+"						return PLUS ;
@@ -29,8 +31,8 @@ IS			(u|U|l|L)*
 "/"						return DIV ;
 "if"					return IF ;
 "then"					return THEN ;
-"while"					return WHILE_LOOP ;
-"do"					return DO_LOOP ;
+"while"					return WHILE ;
+"do"					return DO ;
 "int"					return INT ;
 "float"					return FLOAT ;
 "double"				return DOUBLE ;
@@ -46,6 +48,7 @@ IS			(u|U|l|L)*
 [_a-zA-Z][_a-zA-Z0-9]*  return ID ;
 [0-9]+\.[0-9]*		  	return DOUBLE ;
 [0-9]+				  	return NUM ;
+L?\"(\\.|[^\\"])*\"		return STRING;
 .						{ /* ignore bad characters */ }
 %%
 
