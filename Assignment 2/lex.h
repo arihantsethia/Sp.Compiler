@@ -1,39 +1,17 @@
-#define EOI		    0
-#define SEMI		1
-#define PLUS 		2
-#define MINUS       3
-#define TIMES       4
-#define DIV		    5
-#define LP		    6
-#define RP		    7
-#define NUM	        8
-#define ID          9
-#define LB		    10
-#define RB          11
-#define IF          12
-#define THEN        13
-#define WHILE       14
-#define DO          15
-#define EQUALS      16
-#define GREATER     17
-#define LESS        18
-#define GTOET       19
-#define LTOET       20
-#define REQUALS     21
-#define INT		  	22
-#define FLOAT		23
-#define DOUBLE	  	24
-#define LONG		25
-#define CHAR		26
-#define SHORT		27
-#define BREAK		28
-#define FOR		  	29
-#define DO_LOOP	    30
-#define WHILE_LOOP	31
-#define CONTINUE	32
-#define EXTERN		33
-#define RETURN		34
-#define VOID		35
-#define MAIN		36
-#define NEQUAL	  	37
-#define STRING		38
+#ifndef LEX_H_INCLUDED
+#define LEX_H_INCLUDED
+
+extern char *yytext;
+extern int yyleng;
+extern int yylineno;
+extern int Lookahead;
+
+int yylex(void);
+bool is_identifier(string);
+bool is_num(string);
+bool is_string(string s);
+bool is_double(string s);
+int match(int);
+void advance(void);
+
+#endif
