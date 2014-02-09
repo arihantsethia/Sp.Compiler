@@ -1,16 +1,17 @@
 # depslib dependency file v1.0
-1391877007 source:/home/arihant/Github/Compilers/Assignment 2/lex.cpp
+1391879737 source:/home/arihant/Github/Compilers/Assignment 2/lex.cpp
 	"header.h"
 	"keywords.h"
 	"lex.h"
 
-1391697953 /home/arihant/Github/Compilers/Assignment 2/header.h
+1391950065 /home/arihant/Github/Compilers/Assignment 2/header.h
 	<cstdio>
 	<cstdlib>
 	<cctype>
 	<cstring>
 	<iostream>
 	<string>
+	<fstream>
 	<vector>
 	<sstream>
 	<map>
@@ -19,10 +20,11 @@
 
 1391875288 /home/arihant/Github/Compilers/Assignment 2/keywords.h
 
-1391720720 /home/arihant/Github/Compilers/Assignment 2/lex.h
+1391949354 /home/arihant/Github/Compilers/Assignment 2/lex.h
 
-1391875457 source:/home/arihant/Github/Compilers/Assignment 2/main.cpp
+1391951619 source:/home/arihant/Github/Compilers/Assignment 2/main.cpp
 	"header.h"
+	"preprocessor.h"
 	"keywords.h"
 	"lex.h"
 
@@ -32,4 +34,18 @@
 	"syntax_analyzer.h"
 
 1391713504 /home/arihant/Github/Compilers/Assignment 2/syntax_analyzer.h
+
+1391949340 /home/arihant/Github/Compilers/Assignment 2/comment_stripper.h
+	<string>
+
+1391950424 source:/home/arihant/Github/Compilers/Assignment 2/comment_stripper.cpp
+	"header.h"
+	"comment_stripper.h"
+
+1391951627 /home/arihant/Github/Compilers/Assignment 2/preprocessor.h
+	<string>
+
+1391950831 source:/home/arihant/Github/Compilers/Assignment 2/preprocessor.cpp
+	"header.h"
+	"preprocessor.h"
 
