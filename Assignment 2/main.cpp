@@ -1,10 +1,17 @@
 #include "header.h"
+#include "preprocessor.h"
 #include "keywords.h"
 #include "lex.h"
+
 using namespace std;
 
 int main() {
-    string s;
+    string file_name;
+    cin>>file_name;
+    file_name = preprocessor(file_name);
+    cout<<file_name;
+    freopen(file_name.c_str(), "r", stdin);
+   string s;
    int d = 1;
    while(d){
         d =yylex();
@@ -24,5 +31,6 @@ int main() {
         else if(d==101)
             cout<<"< "<<s<<" , character >\n";
     }
+    fclose(stdin);
     return 0;
 }
