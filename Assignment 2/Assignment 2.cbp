@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="&gt;out.txt " />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -32,17 +33,21 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="comment_stripper.cpp">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="comment_stripper.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="header.h" />
 		<Unit filename="keywords.h" />
-		<Unit filename="lex.cpp" />
-		<Unit filename="lex.h" />
+		<Unit filename="lex.cpp">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="lex.h">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="lex.yy.c">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="lex.yy.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="preprocessor.cpp" />
+		<Unit filename="preprocessor.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

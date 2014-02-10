@@ -1,8 +1,10 @@
-#ifndef COMMENT_STRIPPER_H_INCLUDED
-#define COMMENT_STRIPPER_H_INCLUDED
+#ifndef PREPROCESSOR_H_INCLUDED
+#define PREPROCESSOR_H_INCLUDED
+
 #include <string>
 
-string remove_comments(string);
-string replace_macros(string);
-string preprocessor(string);
-#endif // COMMENT_STRIPPER_H_INCLUDED
+std::string remove_comments(std::string);
+std::string replace_macros(std::string);
+std::string preprocessor(std::string);
+
+#endif
