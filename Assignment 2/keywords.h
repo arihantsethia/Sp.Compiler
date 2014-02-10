@@ -1,7 +1,6 @@
 #ifndef KEYWORDS_H_INCLUDED
 #define KEYWORDS_H_INCLUDED
 
-
 #define EOI 0
 #define AUTO 1
 #define BREAK 2

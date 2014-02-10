@@ -1,20 +1,22 @@
 #include "header.h"
 #include "preprocessor.h"
 #include "keywords.h"
-#include "lex.h"
+//#include "lex.h"
+#include "lex.yy.h"
 
 using namespace std;
 
 int main() {
     string file_name;
+    cout<<"Enter File Name :";
     cin>>file_name;
     file_name = preprocessor(file_name);
     cout<<file_name;
     freopen(file_name.c_str(), "r", stdin);
-   string s;
-   int d = 1;
-   while(d){
-        d =yylex();
+    string s;
+    int d = 1;
+    while(d) {
+        d = yylex();
         s.assign(yytext, yytext + yyleng);
         if(d>=1 && d<=33)
             cout<<"< "<<s<<" , keyword >\n";

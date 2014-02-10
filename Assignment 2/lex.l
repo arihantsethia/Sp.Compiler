@@ -92,7 +92,7 @@ IS			(u|U|l|L)*
 "<<="			return LSHIFTEQ ;
 ">>="			return RSHIFTEQ ;
 
-{L}({L}|{D})*			return IDENTIFIER;
+{L}({L}|{D})*			return ID;
 0[xX]{H}+{IS}?			return HEX;
 0{D}+{IS}?				return OCTA;
 {D}+{IS}?				return NUMBER;
@@ -104,3 +104,8 @@ L?'(\\.|[^\\'])+'		return REAL;
 L?\"(\\.|[^\\"])*\"		return STRING;
 .						{ /* ignore bad characters */ }
 %%
+
+int yywrap()
+{
+	return(1);
+}
